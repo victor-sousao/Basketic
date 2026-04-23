@@ -1,9 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   background-color: black;
 }
 
@@ -23,18 +21,20 @@ body {
 
 .header {
   height: var(--tamanho-header);
-  border-bottom: 2px solid #32b9cd;
+  background-color: transparent;
 }
 
-.header .container {
-  justify-content: space-between;
+.banner .header .container {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-around;
   align-items: center;
   height: 100%;
 }
 
 .header a {
   text-decoration: none;
-  color: #e3b062;
+  color: #000;
 }
 
 .agora {
@@ -42,18 +42,28 @@ body {
 }
 
 .navbar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 colunas iguais */
+  gap: 2px; /* espaço entre os itens */
+  padding: 10px;
   width: 300px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   list-style: none;
-  color: #e3b062;
+  background-color:#d38f10;
+  border: #ca7942 2px solid;
+  border-radius: 2rem;
 }
 
 .titulo {
-  color: #32b9cd;
-  width: fit-content;
+  color: #df5329;
+  width: 3rem;
   font-weight: 500;
+  cursor: pointer;
+  background-color: #000000;
+  border: #ca7942 2px solid;
+  border-radius: 60%;
 }
 
 .header h1 {
@@ -65,7 +75,7 @@ body {
 .banner {
   height: var(--tamanho-banner);
   color: white;
-  background-image: url('../assets/imgs/bg-jelly-fish-para-home.png');
+  background-image: url('../assets/imgs/back-ground.webp');
   background-size: cover;
 }
 
