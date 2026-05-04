@@ -116,6 +116,21 @@
     // var idEmpresaVincular;
 
     // Verificando se há algum campo em branco
+
+    let encontrou_arroba_ou_ponto = false
+
+    for (let i = 0; i < emailVar.length; i++){
+      if (emailVar[i] == "@" || emailVar[i] == "."){
+        encontrou_arroba_ou_ponto = true
+      }
+    }
+
+    if (!encontrou_arroba_ou_ponto){
+      alert("Email inválido")
+      finalizarAguardar()
+      return false
+    }
+
     if (
       nomeVar == "" ||
       emailVar == "" ||
