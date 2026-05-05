@@ -203,7 +203,7 @@ body {
 .login {
   height: var(--tamanho-login);
   background-image: url('../assets/imgs/back-ground_logincadastro.png');
-  background-size: 100% 100%;
+  background-size: cover;
 }
 
 .login .container {
