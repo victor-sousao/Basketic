@@ -26,6 +26,15 @@ CREATE TABLE usuario (
 	-- FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
 );
 
+CREATE TABLE dados_usuario (
+	id_dados int primary key auto_increment,
+	horas_jogadas int,
+	fk_usuario int,
+	qtd_cestas int,
+	qtd_partidas int,
+	qtd_vitorias int
+);
+
 -- CREATE TABLE aviso (
 -- 	id INT PRIMARY KEY AUTO_INCREMENT,
 -- 	titulo VARCHAR(100),
@@ -66,4 +75,6 @@ insert into usuario(nome, email, senha) values
 
 create user 'inseridor'@'localhost' identified by 'basketicVictor';
 grant insert on basketic.* to 'inseridor'@'localhost';
+
+grant select on basketic.* to 'inseridor'@'localhost';
 flush privileges;
