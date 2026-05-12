@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AquaTech | Tempo Real</title>
+    <title>Portal do usuário</title>
 
 
     <link rel="stylesheet" href="./../css/dashboards.css">
@@ -20,20 +20,25 @@
         rel="stylesheet">
 </head>
 
-<body onload="validarSessao(), exibirAquarios(),  atualizacaoPeriodica()">
+<body>
+    <!-- <body onload="validarSessao(), exibirAquarios(),  atualizacaoPeriodica()"> -->
 
     <div class="janela">
 
         <div class="header-left dash-header">
+            <a href="../index.html">
+                <img src="../assets/imgs/BasketicLogo.png" class="titulo" />
+            </a>
 
-            <h1>AquaTech</h1>
+
+
 
             <div class="hello">
-                <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+                <h3>Olá, <span id="b_usuario">usuário</span>! Jogou hoje?</h3>
             </div>
 
             <div class="btn-nav">
-                <h3>Aquários</h3>
+                <h3>Portal</h3>
             </div>
 
             <div class="btn-nav-white">
@@ -55,9 +60,29 @@
         </div>
 
         <div class="dash">
+            <div class="perguntas">
+                <div class="horas_jogadas">
+                    <label>Quantas horas você jogou hoje?</label>
+                    <input type="text" id="ipt_horario_incio" placeholder="Ex: 10">
+                </div>
+                <div class="qtd_cestas">
+                    <label>Quantas cestas você fez hoje?</label>
+                    <input type="text" id="ipt_qtd_cestas" placeholder="Ex: 27">
+                </div>
+                <div class="qtd_partidas">
+                    <label>Quantas partidas você jogou hoje?</label>
+                    <input type="text" id="ipt_qtd_partidas" placeholder="Ex: 13">
+                </div>
+                <div class="qtd_vitorias">
+                    <label>Quantas vitórias você teve hoje?</label>
+                    <input type="text" id="ipt_qtd_vitorias" placeholder="Ex: 13">
+                    <button onclick="cadastrar()">Cadastrar</button>
+                </div>
+
+            </div>
             <div id="alerta">
             </div>
-            <div class="area-parametros-alerta">
+            <!-- <div class="area-parametros-alerta">
                 <p class="titulo-legenda">
                     Legenda - Parâmetros para Alertas
                 </p>
@@ -83,7 +108,7 @@
                         <p>&gt;=23°C</p>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="cards" id="cardAquarios">
 
@@ -97,22 +122,120 @@
 
 <script>
 
-    function exibirAquarios() {
-        JSON.parse(sessionStorage.AQUARIOS).forEach(item => {
-            document.getElementById("cardAquarios").innerHTML += `
-                    <div class="card-aquario">
-                        <div class="title-aquario">
-                            <h1>${item.descricao}</h1>
-                        </div>
-                        <div class="desc-aquario">
-                        <div class="temperatura">
-                            <p id="temp_aquario_${item.id}">-°C</p>
-                        </div>
-                        <div class="cor-alerta" id="card_${item.id}"></div>
-                    </div>
-                    </div>
-                    `
-        });
+    // function exibirAquarios() {
+    //     JSON.parse(sessionStorage.AQUARIOS).forEach(item => {
+    //         document.getElementById("cardAquarios").innerHTML += `
+    //                 <div class="card-aquario">
+    //                     <div class="title-aquario">
+    //                         <h1>${item.descricao}</h1>
+    //                     </div>
+    //                     <div class="desc-aquario">
+    //                     <div class="temperatura">
+    //                         <p id="temp_aquario_${item.id}">-°C</p>
+    //                     </div>
+    //                     <div class="cor-alerta" id="card_${item.id}"></div>
+    //                 </div>
+    //                 </div>
+    //                 `
+    //     });
+    // }
+
+    function cadastrar() {
+        // aguardar();
+
+        //Recupere o valor da nova input pelo nome do id
+        // Agora vá para o método fetch logo abaixo
+        var horas_jogadas = ipt_horario_incio.value
+        var fk_usuario = sessionStorage.ID_USUARIO
+        var qtd_cestas = ipt_qtd_cestas.value
+        var qtd_partidas = ipt_qtd_partidas.value
+        var qtd_vitorias = ipt_qtd_vitorias.value
+        // var codigoVar = codigo_input.value;
+        // var idEmpresaVincular;
+
+        // Verificando se há algum campo em branco
+
+        let encontrou_arroba_ou_ponto = false
+
+        // for (let i = 0; i < emailVar.length; i++) {
+        //     if (emailVar[i] == "@" || emailVar[i] == ".") {
+        //         encontrou_arroba_ou_ponto = true
+        //     }
+        // }
+
+        // if (!encontrou_arroba_ou_ponto) {
+        //     alert("Email inválido")
+        //     finalizarAguardar()
+        //     return false
+        // }
+
+        if (
+            horas_jogadas == ""
+        ) {
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML =
+                "(Mensagem de erro para todos os campos em branco)";
+
+            // finalizarAguardar();
+            return false;
+            
+        }
+        //  else {
+        //     setInterval(sumirMensagem, 5000);
+        // }
+
+        // // // Verificando se o código de ativação é de alguma empresa cadastrada
+        // for (let i = 0; i < listaEmpresasCadastradas.length; i++) {
+        //   if (listaEmpresasCadastradas[i].codigo_ativacao == codigoVar) {
+        //     idEmpresaVincular = listaEmpresasCadastradas[i].id;
+        //     console.log("Código de ativação válido.");
+        //     break;
+        //   } else {
+        //     cardErro.style.display = "block";
+        //     mensagem_erro.innerHTML = "(Mensagem de erro para código inválido)";
+        //  finalizarAguardar();
+        //   }
+        // }
+
+        // Enviando o valor da nova input
+        fetch("/dados/cadastrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                horasServer: horas_jogadas,
+                fkUsuarioServer: fk_usuario,
+                cestasServer: qtd_cestas,
+                partidasServer: qtd_partidas,
+                vitoriasServer: qtd_vitorias
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+                    // cardErro.style.display = "block";
+
+                    // mensagem_erro.innerHTML =
+                    //     "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+                    // setTimeout(() => {
+                    //     window.location = "login.html";
+                    // }, "2000");
+
+                    // limparFormulario();
+                    // finalizarAguardar();
+                } else {
+                    throw "Houve um erro ao tentar realizar o cadastro!";
+                }
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+                // finalizarAguardar();
+            });
+
+        return false;
     }
 
 </script>

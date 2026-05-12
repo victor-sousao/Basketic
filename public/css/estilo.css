@@ -100,6 +100,7 @@ body {
   background-size: cover;
 }
 
+
 .banner .container {
   flex-direction: column;
   padding: 1rem;
@@ -109,6 +110,13 @@ body {
   border: #d1921e 2px solid;
   border-radius: 1rem;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);;
+  transition: 0.5s;
+}
+
+.banner .container:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-10px);
+  transition: 0.5s;
 }
 
 .banner .container h1 {
@@ -148,6 +156,16 @@ body {
 }
 
 /* MISSÃO VISÃO VALORES */
+
+.titulo_site {
+  padding: 10px;
+  border: #ca7942 2px solid;
+  border-radius: 5rem;
+  height: fit-content;
+  background-color: #f5ac3e;
+  font-size: larger;
+  margin: 1rem;
+}
 
 .social {
   background-color: #e5e5e5;
