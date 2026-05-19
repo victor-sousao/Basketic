@@ -220,8 +220,8 @@ body {
 
 .login {
   height: var(--tamanho-banner);
-  background-image: url('../assets/imgs/back-ground_logincadastro.png');
-  background-size: auto;
+  background: url('../assets/imgs/back-ground_logincadastro.png') no-repeat top center fixed;
+  background-size: cover;
 
 }
 
