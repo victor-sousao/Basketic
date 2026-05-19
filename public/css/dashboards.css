@@ -112,7 +112,7 @@ body {
 /* pagina graficos */
 
 .dash-header {
-  background-color: #212124;
+  background-color: #e3b062;
 }
 
 .dash {
@@ -120,9 +120,31 @@ body {
   position: relative;
   top: 0;
   left: 20%;
-  background-color: #161618;
+  background-image: url(../assets/imgs/back-ground.webp);
   height: 100vh;
   overflow: auto;
+}
+
+.perguntas {
+  display: flex;
+  border: #ff7043 2px solid;
+  border-radius: 1rem;
+  padding: 2rem;
+  gap: 50px;
+  justify-content: space-around;
+  margin-left: 5px;
+  color: white;
+  background-color: #e3b062;
+}
+
+.btn {
+  border: #ca7942 2px solid;
+  border-radius: 1rem;
+  padding: 10px;
+  background-color:#f5ac3e;
+  font-weight: 800;
+  transition: 0.3s;
+  cursor: pointer;
 }
 
 .area-parametros-alerta {
