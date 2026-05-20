@@ -2,7 +2,7 @@
 <html lang="pt-br">
 
 <head>
-    <link rel="shortcut icon" href="../assets/icon/favicon2.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../assets/imgs/BasketicLogo.png" type="image/x-icon">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,12 +38,12 @@
             </div>
 
             <div class="btn-nav">
-                <h3>Portal</h3>
+                <h3>Basketic</h3>
             </div>
 
             <div class="btn-nav-white">
                 <a href="./dashboard.html">
-                    <h3>Gráficos</h3>
+                    <h3>Dashboard</h3>
                 </a>
             </div>
 
@@ -58,31 +58,32 @@
             </div>
 
         </div>
+    </div>
 
-        <div class="dash">
-            <div class="perguntas">
-                <div class="horas_jogadas">
-                    <label>Quantas horas você jogou hoje?</label>
-                    <input type="text" id="ipt_horario_incio" placeholder="Ex: 10">
-                </div>
-                <div class="qtd_cestas">
-                    <label>Quantas cestas você fez hoje?</label>
-                    <input type="text" id="ipt_qtd_cestas" placeholder="Ex: 27">
-                </div>
-                <div class="qtd_partidas">
-                    <label>Quantas partidas você jogou hoje?</label>
-                    <input type="text" id="ipt_qtd_partidas" placeholder="Ex: 13">
-                </div>
-                <div class="qtd_vitorias">
-                    <label>Quantas vitórias você conseguiu ter hoje?  </label>
-                    <input type="text" id="ipt_qtd_vitorias" placeholder="Ex: 13">
-                    <button onclick="cadastrar()" class="btn">Cadastrar</button>
-                </div>
+    <div class="dash">
+        <div class="perguntas">
+            <div class="horas_jogadas">
+                <label>Quantas horas você jogou hoje?</label>
+                <input type="text" id="ipt_horario_incio" placeholder="Ex: 10">
+            </div>
+            <div class="qtd_cestas">
+                <label>Quantas cestas você fez hoje?</label>
+                <input type="text" id="ipt_qtd_cestas" placeholder="Ex: 27">
+            </div>
+            <div class="qtd_partidas">
+                <label>Quantas partidas você jogou hoje?</label>
+                <input type="text" id="ipt_qtd_partidas" placeholder="Ex: 13">
+            </div>
+            <div class="qtd_vitorias">
+                <label>Quantas vitórias você conseguiu ter hoje? </label>
+                <input type="text" id="ipt_qtd_vitorias" placeholder="Ex: 13">
+                <button onclick="cadastrar()" class="btn-logout">Cadastrar</button>
+            </div>
 
-            </div>
-            <div id="alerta">
-            </div>
-            <!-- <div class="area-parametros-alerta">
+        </div>
+        <div id="alerta">
+        </div>
+        <!-- <div class="area-parametros-alerta">
                 <p class="titulo-legenda">
                     Legenda - Parâmetros para Alertas
                 </p>
@@ -110,13 +111,13 @@
                 </div>
             </div> -->
 
-            <div class="cards" id="cardAquarios">
+        <!-- <div class="cards" id="cardAquarios">
 
-            </div>
-
-        </div>
+            </div> -->
 
     </div>
+
+
 
 </body>
 
@@ -178,7 +179,7 @@
 
             // finalizarAguardar();
             return false;
-            
+
         }
         //  else {
         //     setInterval(sumirMensagem, 5000);
