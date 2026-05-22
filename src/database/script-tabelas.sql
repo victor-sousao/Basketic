@@ -27,12 +27,14 @@ CREATE TABLE usuario (
 );
 
 CREATE TABLE dados_usuario (
-	id_dados int primary key auto_increment,
-	horas_jogadas int,
-	fk_usuario int,
-	qtd_cestas int,
-	qtd_partidas int,
-	qtd_vitorias int
+	id_dados INT PRIMARY KEY auto_increment,
+	horas_jogadas ,
+	fk_usuario INT,
+	qtd_cestas INT,
+	taxa_acerto DECIMAL(5,2)
+	qtd_partidas INT,
+	qtd_vitorias INT,
+	dt_jogo DATE DEFAULT NOW()
 );
 
 -- CREATE TABLE aviso (
@@ -43,7 +45,7 @@ CREATE TABLE dados_usuario (
 -- 	FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
 -- );
 
--- create table aquario (
+-- CREATE TABLE aquario (
 -- /* em nossa regra de negócio, um aquario tem apenas um sensor */
 -- 	id INT PRIMARY KEY AUTO_INCREMENT,
 -- 	descricao VARCHAR(300),
@@ -53,7 +55,7 @@ CREATE TABLE dados_usuario (
 
 -- /* esta tabela deve estar de acordo com o que está em INSERT de sua API do arduino - dat-acqu-ino */
 
--- create table medida (
+-- CREATE TABLE medida (
 -- 	id INT PRIMARY KEY AUTO_INCREMENT,
 -- 	dht11_umidade DECIMAL,
 -- 	dht11_temperatura DECIMAL,
@@ -65,16 +67,16 @@ CREATE TABLE dados_usuario (
 -- 	FOREIGN KEY (fk_aquario) REFERENCES aquario(id)
 -- );
 
--- insert into empresa (razao_social, codigo_ativacao) values ('Empresa 1', 'ED145B');
--- insert into empresa (razao_social, codigo_ativacao) values ('Empresa 2', 'A1B2C3');
--- insert into aquario (descricao, fk_empresa) values ('Aquário de Estrela-do-mar', 1);
--- insert into aquario (descricao, fk_empresa) values ('Aquário de Peixe-dourado', 2);
+-- INSERT INTO empresa (razao_social, codigo_ativacao) values ('Empresa 1', 'ED145B');
+-- INSERT INTO empresa (razao_social, codigo_ativacao) values ('Empresa 2', 'A1B2C3');
+-- INSERT INTO aquario (descricao, fk_empresa) values ('Aquário de Estrela-do-mar', 1);
+-- INSERT INTO aquario (descricao, fk_empresa) values ('Aquário de Peixe-dourado', 2);
 
-insert into usuario(nome, email, senha) values 
+INSERT INTO usuario(nome, email, senha) VALUES 
 ('Victor', 'victor@gmail.com', 'qwerty123');
 
-create user 'inseridor'@'localhost' identified by 'basketicVictor';
-grant insert on basketic.* to 'inseridor'@'localhost';
+CREATE USER 'inseridor'@'localhost' identified by 'basketicVictor';
+GRANT INSERT ON basketic.* TO 'inseridor'@'localhost';
 
-grant select on basketic.* to 'inseridor'@'localhost';
-flush privileges;
+GRANT SELECT on basketic.* TO 'inseridor'@'localhost';
+FLUSH PRIVILEGES;
