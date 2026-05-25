@@ -6,6 +6,8 @@
 comandos para mysql server
 */
 
+DROP DATABASE IF EXISTS basketic;
+
 CREATE DATABASE basketic;
 
 USE basketic;
@@ -28,13 +30,13 @@ CREATE TABLE usuario (
 
 CREATE TABLE dados_usuario (
 	id_dados INT PRIMARY KEY auto_increment,
-	horas_jogadas ,
+	horas_jogadas INT,
 	fk_usuario INT,
 	qtd_cestas INT,
-	taxa_acerto DECIMAL(5,2)
+	taxa_acerto DECIMAL(5,2),
 	qtd_partidas INT,
 	qtd_vitorias INT,
-	dt_jogo DATE DEFAULT NOW()
+	dt_jogo DATE DEFAULT (current_date)
 );
 
 -- CREATE TABLE aviso (
