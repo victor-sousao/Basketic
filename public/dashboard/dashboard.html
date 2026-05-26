@@ -47,16 +47,8 @@
             </div>
 
 
-            <div class="btn-nav-white">
-                <a href="dashboard_geral.html">
-                    <h3>Dashboard Geral</h3>
-                </a>
-            </div>
-
-            <div class="btn-nav-white">
-                <a href="./mural.html">
-                    <h3>Mural de Avisos</h3>
-                </a>
+            <div class="btn-nav">
+                <h3>Dashboard</h3>
             </div>
 
             <div class="btn-logout" onclick="limparSessao()">
@@ -86,6 +78,8 @@
 
 <script>
     b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
+
 
     let proximaAtualizacao;
 
@@ -145,14 +139,14 @@
                 y: {
                     beginAtZero: true,
                     grid: {
-                            color: 'rgba(255, 255, 255, 0.1)'
-                        }
+                        color: 'rgba(255, 255, 255, 0.1)'
+                    }
                 },
                 x: {
-                        grid: {
-                            display: false
-                        }
+                    grid: {
+                        display: false
                     }
+                }
             }
         }
     }
