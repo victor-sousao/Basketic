@@ -13,15 +13,13 @@
     <link rel="stylesheet" href="./../css/estilo.css" />
 
     <script src="../js/sessao.js"></script>
-    <script src="../js/alerta.js"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link
         href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
 </head>
 
-<body onload="validarSessao()" style="background-color: #161618;">
-    <!-- <body onload="validarSessao(), exibirAquarios(),  atualizacaoPeriodica()"> -->
+<body onload="listarPerformance()" style="background-color: #161618;">
 
     <div class="janela">
 
@@ -77,69 +75,26 @@
             <div class="qtd_vitorias">
                 <label>Quantas vitórias você conseguiu ter hoje? </label>
                 <input type="text" id="ipt_qtd_vitorias" placeholder="Ex: 13">
-                <button onclick="cadastrar()" class="btn-logout">Cadastrar</button>
+                <button onclick="cadastrar(), window.location.reload()" class="btn-logout">Cadastrar</button>
             </div>
 
         </div>
         <div id="alerta">
         </div>
-        <!-- <div class="area-parametros-alerta">
-                <p class="titulo-legenda">
-                    Legenda - Parâmetros para Alertas
-                </p>
-                <div class="parametros-alerta">
-                    <div class="item-regua perigo-frio">
-                        <p>Perigo</p>
-                        <p>&lt;=5°C</p>
-                    </div>
-                    <div class="item-regua alerta-frio">
-                        <p>Alerta</p>
-                        <p>&lt;=10°C</p>
-                    </div>
-                    <div class="item-regua ideal">
-                        <p>Ideal</p>
-                        <p>20°C</p>
-                    </div>
-                    <div class="item-regua alerta-quente">
-                        <p>Alerta</p>
-                        <p>&gt;=22°C</p>
-                    </div>
-                    <div class="item-regua perigo-quente">
-                        <p>Perigo</p>
-                        <p>&gt;=23°C</p>
-                    </div>
-                </div>
-            </div> -->
 
-        <!-- <div class="cards" id="cardAquarios">
-
-            </div> -->
-
+        <div class="grafico-performance">
+            <canvas id="grafico-cestapartida-ultimo-jogo"></canvas>
+            <canvas id="grafico-performance-ultimo-jogo"></canvas>
+        </div>
     </div>
 
 
 
 </body>
 
-<script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    // function exibirAquarios() {
-    //     JSON.parse(sessionStorage.AQUARIOS).forEach(item => {
-    //         document.getElementById("cardAquarios").innerHTML += `
-    //                 <div class="card-aquario">
-    //                     <div class="title-aquario">
-    //                         <h1>${item.descricao}</h1>
-    //                     </div>
-    //                     <div class="desc-aquario">
-    //                     <div class="temperatura">
-    //                         <p id="temp_aquario_${item.id}">-°C</p>
-    //                     </div>
-    //                     <div class="cor-alerta" id="card_${item.id}"></div>
-    //                 </div>
-    //                 </div>
-    //                 `
-    //     });
-    // }
+<script>
 
     function cadastrar() {
         // aguardar();
@@ -151,8 +106,7 @@
         var qtd_cestas = ipt_qtd_cestas.value
         var qtd_partidas = ipt_qtd_partidas.value
         var qtd_vitorias = ipt_qtd_vitorias.value
-        // var codigoVar = codigo_input.value;
-        // var idEmpresaVincular;
+
 
         // Verificando se há algum campo em branco
 
@@ -181,24 +135,6 @@
             return false;
 
         }
-        //  else {
-        //     setInterval(sumirMensagem, 5000);
-        // }
-
-        // // // Verificando se o código de ativação é de alguma empresa cadastrada
-        // for (let i = 0; i < listaEmpresasCadastradas.length; i++) {
-        //   if (listaEmpresasCadastradas[i].codigo_ativacao == codigoVar) {
-        //     idEmpresaVincular = listaEmpresasCadastradas[i].id;
-        //     console.log("Código de ativação válido.");
-        //     break;
-        //   } else {
-        //     cardErro.style.display = "block";
-        //     mensagem_erro.innerHTML = "(Mensagem de erro para código inválido)";
-        //  finalizarAguardar();
-        //   }
-        // }
-
-        // Enviando o valor da nova input
         fetch("/dados/cadastrar", {
             method: "POST",
             headers: {
@@ -236,8 +172,173 @@
                 // finalizarAguardar();
             });
 
+            listarPerformance()
         return false;
     }
+
+    function listarPerformance() {
+
+        var fk_usuario = sessionStorage.ID_USUARIO;
+
+        fetch(`/dados/performance/${fk_usuario}`, { cache: 'no-store' }).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                    plotarPerformance(resposta)
+                    resposta.reverse();
+
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+                // Se não houver dados, mostra gráficos zerados
+                plotarPerformance([]);
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+                // Se houver erro, mostra gráficos zerados
+                plotarPerformance([]);
+            });
+    }
+
+    function plotarPerformance(resposta) {
+
+        let qtd_cestas_peunultimo_jogo = 0
+        let qtd_partidas_penultimo = 0
+        let qtd_cestas_ultimo_jogo = 0
+        let qtd_partidas_ultimo = 0
+
+        // Verifica se há dados disponíveis
+        if (resposta && resposta.length >= 1) {
+            qtd_cestas_ultimo_jogo = resposta[0].qtd_cestas
+            qtd_partidas_ultimo = resposta[0].qtd_partidas
+        }
+
+        if (resposta && resposta.length >= 2) {
+            qtd_cestas_peunultimo_jogo = resposta[1].qtd_cestas
+            qtd_partidas_penultimo = resposta[1].qtd_partidas
+        }
+
+
+        const ctx = document.getElementById('grafico-cestapartida-ultimo-jogo');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Penúltimo jogo', 'Último jogo'],
+                datasets: [
+                    {
+                        label: 'Cestas',
+                        data: [qtd_cestas_peunultimo_jogo, qtd_cestas_ultimo_jogo],
+                        backgroundColor: '#F39237',
+                        borderWidth: 0
+                    },
+                    {
+                        label: 'Partidas Jogadas',
+                        data: [qtd_partidas_penultimo, qtd_partidas_ultimo],
+                        backgroundColor: '#D97435',
+                        borderWidth: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Quantidade de cestas e partidas jogadas nos últimos jogos',
+                        font: {
+                            size: 16,
+                            weight: 'bold'
+                        }
+                    },
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    filler: {
+                        propagate: true
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        let performance_ultimo = qtd_partidas_ultimo > 0 ? Number(qtd_cestas_ultimo_jogo / qtd_partidas_ultimo).toFixed(2) : 0
+        let performance_penultimo = qtd_partidas_penultimo > 0 ? Number(qtd_cestas_peunultimo_jogo / qtd_partidas_penultimo).toFixed(2) : 0
+
+        const ctx2 = document.getElementById('grafico-performance-ultimo-jogo');
+
+        new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['Penúltimo jogo', 'Último jogo'],
+                datasets: [{
+                    label: 'Performance',
+                    data: [performance_penultimo, performance_ultimo],
+                    borderWidth: 1,
+                    backgroundColor: '#F39237'
+                },]
+
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Performance',
+                        font: {
+                            size: 16,
+                            weight: 'bold'
+                        }
+                    },
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    filler: {
+                        propagate: true
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+
+    }
+
+    // Esta função *plotarGrafico* usa os dados capturados na função anterior para criar o gráfico
+    // Configura o gráfico (cores, tipo, etc), materializa-o na página e,
+    // A função *plotarGrafico* também invoca a função *atualizarGrafico*
+
+
 
 </script>
 
