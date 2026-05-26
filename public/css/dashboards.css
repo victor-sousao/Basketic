@@ -111,6 +111,23 @@ body {
 
 /* pagina graficos */
 
+.grafico-performance {
+  display: flex;
+  gap: 2rem;
+  background-color: white;
+  padding: 2rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.grafico-performance canvas {
+  background-color: white !important;
+  max-width: 45%;
+  height: auto;
+}
+
 .dash-header {
   background-color: #e3b062;
 }
