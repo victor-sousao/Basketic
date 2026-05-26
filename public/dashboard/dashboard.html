@@ -28,7 +28,7 @@
 
 <!-- <body onload=" atualizarFeed()"> -->
 
-<body>
+<body onload="listarPerformance()">
 
     <div class="janela">
         <div class="header-left">
@@ -81,76 +81,110 @@
 
 
 
-    let proximaAtualizacao;
+    function listarPerformance() {
 
-    let primeiro_jogo = 1
-    let segundo_jogo = 2
-    let terceiro_jogo = 3
-    let quarto_jogo = 4
-    let quinto_jogo = 5
-    let sexto_jogo = 6
-    let setimo_jogo = 7
+        var fk_usuario = sessionStorage.ID_USUARIO;
 
-    const meu_grafico = document.getElementById('grafico_geral');
+        fetch(`/dados/performance/${fk_usuario}`, { cache: 'no-store' }).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 
-    new Chart(
-        meu_grafico, {
-        // type serve para definir o tipo do gráfico
-        type: 'bar',
-        data: {
-            // data: serve para colocar as informações do gráfico
-            // esse label serve para legendar cada barra do gráfico
-            labels: [
-                'Primeiro jogo', 'Segundo jogo', 'Terceiro jogo', 'Quarto jogo', 'Quinto jogo', 'Sexto jogo', 'Sétimo jogo'
-            ],
+                    plotarPerformance(resposta)
+                    resposta.reverse();
 
-            // datasets serve para realmente colocar os valores do gráfico conforme a ordem
-            datasets: [
-                {
-                    label: 'Performance',
-                    data: [primeiro_jogo, segundo_jogo, terceiro_jogo, quarto_jogo, quinto_jogo, sexto_jogo, setimo_jogo],
-                    borderWidth: 1,
-                    backgroundColor: '#F39237'
-                }
-            ]
-        },
-        // configura as posições do gráfico
-        options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Desempenho nos últimos 7 jogos',
-                    font: {
-                        size: 16,
-                        weight: 'bold'
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+                // Se não houver dados, mostra gráficos zerados
+                plotarPerformance([]);
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+                // Se houver erro, mostra gráficos zerados
+                plotarPerformance([]);
+            });
+    }
+
+    function plotarPerformance(resposta) {
+
+        let qtd_cestas_peunultimo_jogo = 0
+        let qtd_partidas_penultimo = 0
+        let qtd_cestas_ultimo_jogo = 0
+        let qtd_partidas_ultimo = 0
+
+        // Verifica se há dados disponíveis
+        if (resposta && resposta.length >= 1) {
+            qtd_cestas_ultimo_jogo = resposta[0].qtd_cestas
+            qtd_partidas_ultimo = resposta[0].qtd_partidas
+        }
+
+        if (resposta && resposta.length >= 2) {
+            qtd_cestas_peunultimo_jogo = resposta[1].qtd_cestas
+            qtd_partidas_penultimo = resposta[1].qtd_partidas
+        }
+
+        const meu_grafico = document.getElementById('grafico_geral');
+
+        new Chart(
+            meu_grafico, {
+            // type serve para definir o tipo do gráfico
+            type: 'bar',
+            data: {
+                // data: serve para colocar as informações do gráfico
+                // esse label serve para legendar cada barra do gráfico
+                labels: [
+                    'Primeiro jogo', 'Segundo jogo', 'Terceiro jogo', 'Quarto jogo', 'Quinto jogo', 'Sexto jogo', 'Sétimo jogo'
+                ],
+
+                // datasets serve para realmente colocar os valores do gráfico conforme a ordem
+                datasets: [
+                    {
+                        label: 'Performance',
+                        data: [primeiro_jogo, segundo_jogo, terceiro_jogo, quarto_jogo, quinto_jogo, sexto_jogo, setimo_jogo],
+                        borderWidth: 1,
+                        backgroundColor: '#F39237'
                     }
-                },
-                legend: {
-                    display: true,
-                    position: 'top',
-                },
-                filler: {
-                    propagate: true
-                }
+                ]
             },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    grid: {
-                        color: 'rgba(255, 255, 255, 0.1)'
+            // configura as posições do gráfico
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Desempenho nos últimos 7 jogos',
+                        font: {
+                            size: 16,
+                            weight: 'bold'
+                        }
+                    },
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    },
+                    filler: {
+                        propagate: true
                     }
                 },
-                x: {
-                    grid: {
-                        display: false
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
                     }
                 }
             }
         }
+        )
     }
-    )
-
 
 </script>
