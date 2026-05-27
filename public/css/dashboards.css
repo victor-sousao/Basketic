@@ -109,27 +109,57 @@ body {
   margin-left: 30px;
 }
 
-/* pagina graficos */
-
 .janela {
   background-color: #f5ac3e;
 }
 
-.grafico-performance {
-  display: flex;
-  gap: 2rem;
-  background-color: white;
-  padding: 2rem;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
+.fundo-antes-grafico {
+    background: #f5ac3e;
+    padding: 30px;
+    border: 3px solid #d38f10;
 }
 
-.grafico-performance canvas {
-  background-color: white !important;
-  max-width: 45%;
-  height: auto;
+.grafico-performance {
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch;
+    gap: 30px;
+    padding: 10px;
+    border-radius: 1rem;
+    position: relative;
+    background-color: #d38f10;
+}
+
+.left-info,
+.right-info {
+    flex: 1;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+canvas {
+    width: 100% !important;
+    height: 320px !important;
+}
+
+.area-kpi {
+  display: flex;
+  width: 100%;
+  height: 25.3%;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5ac3e;
+  border: 3px solid #d38f10;
+}
+
+.kpi p {
+  font-size: larger;
+  font-weight: bolder;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
 }
 
 .dash-header {
@@ -139,9 +169,10 @@ body {
 .dash {
   height: 98vh;
   width: 80%;
-  background: url('../assets/imgs/back-ground-portal.jpg') no-repeat top center fixed;
+  /* background: url('../assets/imgs/back-ground-portal.jpg') no-repeat top center fixed; */
+  background-color: rgb(211, 143, 16);
   background-size: cover;
-  margin-left: 385px;
+  margin-left: auto;
 }
 
 .perguntas {
@@ -359,11 +390,6 @@ body {
 
 .display-block {
   display: block;
-}
-
-canvas {
-  width: 100% !important;
-  height: 100% !important;
 }
 
 /* PAGINA DOS GRÁFICOS 2023 */
