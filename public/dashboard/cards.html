@@ -19,7 +19,7 @@
         rel="stylesheet">
 </head>
 
-<body onload="listarPerformance()" style="background-color: #181616;">
+<body onload="listarPerformance()" style="background-color: rgb(211, 143, 16);">
 
     <div class="janela">
 
@@ -50,37 +50,50 @@
             </div>
 
         </div>
+        <div class="dash">
+            <div class="perguntas">
+                <div class="horas_jogadas">
+                    <label>Quantas horas você jogou hoje?</label>
+                    <input type="text" id="ipt_horario_incio" placeholder="Ex: 10">
+                </div>
+                <div class="qtd_cestas">
+                    <label>Quantas cestas você fez hoje?</label>
+                    <input type="text" id="ipt_qtd_cestas" placeholder="Ex: 27">
+                </div>
+                <div class="qtd_partidas">
+                    <label>Quantas partidas você jogou hoje?</label>
+                    <input type="text" id="ipt_qtd_partidas" placeholder="Ex: 13">
+                </div>
+                <div class="qtd_vitorias">
+                    <label>Quantas vitórias você conseguiu ter hoje? </label>
+                    <input type="text" id="ipt_qtd_vitorias" placeholder="Ex: 13">
+                    <button onclick="cadastrar(), window.location.reload()" class="btn-logout">Cadastrar</button>
+                </div>
+            </div>
+
+            <div class="fundo-antes-grafico">
+
+
+                <div class="grafico-performance">
+                    <div class="left-info">
+                        <canvas id="grafico-cestapartida-ultimo-jogo"></canvas>
+                    </div>
+
+                    <div class="right-info">
+                        <canvas id="grafico-performance-ultimo-jogo"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="area-kpi">
+                <div class="kpi">
+                    <p>Sua performance de agora foi <span id="kpi_texto" style="color: rgb(255, 145, 0);"></span>, que o
+                        último jogo</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="dash">
-        <div class="perguntas">
-            <div class="horas_jogadas">
-                <label>Quantas horas você jogou hoje?</label>
-                <input type="text" id="ipt_horario_incio" placeholder="Ex: 10">
-            </div>
-            <div class="qtd_cestas">
-                <label>Quantas cestas você fez hoje?</label>
-                <input type="text" id="ipt_qtd_cestas" placeholder="Ex: 27">
-            </div>
-            <div class="qtd_partidas">
-                <label>Quantas partidas você jogou hoje?</label>
-                <input type="text" id="ipt_qtd_partidas" placeholder="Ex: 13">
-            </div>
-            <div class="qtd_vitorias">
-                <label>Quantas vitórias você conseguiu ter hoje? </label>
-                <input type="text" id="ipt_qtd_vitorias" placeholder="Ex: 13">
-                <button onclick="cadastrar(), window.location.reload()" class="btn-logout">Cadastrar</button>
-            </div>
 
-        </div>
-        <div id="alerta">
-        </div>
-
-        <div class="grafico-performance">
-            <canvas id="grafico-cestapartida-ultimo-jogo"></canvas>
-            <canvas id="grafico-performance-ultimo-jogo"></canvas>
-        </div>
-    </div>
 
 
 
@@ -89,6 +102,22 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
+
+    function monitorarMelhoria(novo_jogo, antigo_jogo) {
+        var evolucao = ((novo_jogo - antigo_jogo) / antigo_jogo) * 100
+
+        if (evolucao.toFixed(2) == 0) {
+            kpi_texto.innerHTML = `<span style="color: rgb(255, 145, 0);">a mesma</span>`
+        }
+        else if (evolucao > 0) {
+            kpi_texto.innerHTML = `<span style="color: rgb(0, 255, 0);">${Math.abs(evolucao).toFixed(2)}% melhor</span>`
+        }
+        else {
+            kpi_texto.innerHTML = `<span style="color: rgb(255, 0, 0);">${Math.abs(evolucao).toFixed(2)}% pior</span>`
+        }
+
+        return kpi_texto.innerHTML
+    }
 
     b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
@@ -198,6 +227,11 @@
             });
     }
 
+    function taxaPerformance(cesta, partida) {
+        var performance = cesta / partida
+        return performance.toFixed(2)
+    }
+
     function plotarPerformance(resposta) {
 
         let qtd_cestas_peunultimo_jogo = 0
@@ -274,8 +308,13 @@
             }
         });
 
-        let performance_ultimo = qtd_partidas_ultimo > 0 ? Number(qtd_cestas_ultimo_jogo / qtd_partidas_ultimo).toFixed(2) : 0
-        let performance_penultimo = qtd_partidas_penultimo > 0 ? Number(qtd_cestas_peunultimo_jogo / qtd_partidas_penultimo).toFixed(2) : 0
+
+        let performance_ultimo = taxaPerformance(qtd_cestas_ultimo_jogo, qtd_partidas_ultimo)
+        let performance_penultimo = taxaPerformance(qtd_cestas_peunultimo_jogo, qtd_partidas_penultimo)
+
+        monitorarMelhoria(performance_ultimo, performance_penultimo)
+
+        console.log(performance_penultimo, performance_ultimo)
 
         const ctx2 = document.getElementById('grafico-performance-ultimo-jogo');
 
