@@ -341,6 +341,13 @@ input {
   padding: 10px;
   text-align: center;
   border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transition: 0.3s;
+}
+
+input:hover {
+  transition: 0.3s;
+  transform: translateY(-3px);
 }
 
 .btn {
