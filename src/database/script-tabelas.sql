@@ -36,7 +36,7 @@ CREATE TABLE dados_usuario (
 	taxa_acerto DECIMAL(5,2),
 	qtd_partidas INT,
 	qtd_vitorias INT,
-	dt_jogo DATE DEFAULT (current_date)
+	dt_jogo DATETIME DEFAULT NOW()
 );
 
 -- CREATE TABLE aviso (
@@ -76,6 +76,8 @@ CREATE TABLE dados_usuario (
 
 INSERT INTO usuario(nome, email, senha) VALUES 
 ('Victor', 'victor@gmail.com', 'qwerty123');
+
+DROP USER inseridor@localhost;
 
 CREATE USER 'inseridor'@'localhost' identified by 'basketicVictor';
 GRANT INSERT ON basketic.* TO 'inseridor'@'localhost';
