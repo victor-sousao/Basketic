@@ -30,41 +30,46 @@
 
 <body onload="listarPerformance()">
 
-    <div class="janela">
-        <div class="header-left">
-            <a href="../index.html">
-                <img src="../assets/imgs/BasketicLogo.png" class="titulo" />
-            </a>
+    <div class="header-left">
+        <a href="../index.html">
+            <img src="../assets/imgs/BasketicLogo.png" class="titulo" />
+        </a>
 
-            <div class="hello">
-                <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
-            </div>
-
-            <div class="btn-nav-white">
-                <a href="./cards.html">
-                    <h3>Basketic</h3>
-                </a>
-            </div>
-
-
-            <div class="btn-nav">
-                <h3>Dashboard</h3>
-            </div>
-
-            <div class="btn-logout" onclick="limparSessao()">
-                <h3>Sair</h3>
-            </div>
-
+        <div class="hello">
+            <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
         </div>
 
-        <div class="dash">
-            <div class="btns-dash" id="btnAquario">
-                <!-- O gráfico é chamado de acordo com o id (fk_aquario) do banco  -->
-            </div>
-            <div class="grafico-performance">
-                <canvas id="grafico_geral">
+        <div class="btn-nav-white">
+            <a href="./cards.html">
+                <h3>Basketic</h3>
+            </a>
+        </div>
 
-                </canvas>
+
+        <div class="btn-nav">
+            <h3>Dashboard</h3>
+        </div>
+
+        <div class="btn-logout" onclick="limparSessao()">
+            <h3>Sair</h3>
+        </div>
+
+    </div>
+
+    <div class="janela">
+        <div class="dash">
+            <div class="dash-container">
+                <div class="grafico-performance">
+                    <canvas id="grafico_geral">
+
+                    </canvas>
+
+                </div>
+            </div>
+        </div>
+        <div class="area-kpi">
+            <div class="kpi">
+                <p>Sua melhor jogatina foi no, <span id="kpi_texto" style="color: rgb(4, 109, 4);"></span></p>
             </div>
         </div>
     </div>
@@ -79,7 +84,20 @@
 <script>
     b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
+    function melhorJogo(lista) {
 
+        var posicoes = ['Primeiro jogo', 'Segundo jogo', 'Terceiro jogo', 'Quarto jogo', 'Quinto jogo', 'Sexto jogo', 'Sétimo jogo']
+        var numeros = lista.map(Number)
+        var melhorJogatina = Math.max(...numeros);
+        var indice = numeros.indexOf(melhorJogatina)
+
+        console.log(melhorJogatina)
+        console.log(indice)
+
+        kpi_texto.innerHTML = `${posicoes[indice]} com uma performance de ${melhorJogatina} pontos`
+
+        return kpi_texto.innerHTML
+    }
 
     function listarPerformance() {
 
@@ -107,23 +125,45 @@
             });
     }
 
+    function taxaPerformance(cesta, partida) {
+        var performance = cesta / partida
+        return performance.toFixed(2)
+    }
+
     function plotarPerformance(resposta) {
 
-        let qtd_cestas_peunultimo_jogo = 0
-        let qtd_partidas_penultimo = 0
-        let qtd_cestas_ultimo_jogo = 0
-        let qtd_partidas_ultimo = 0
+        let lista = []
 
-        // Verifica se há dados disponíveis
-        if (resposta && resposta.length >= 1) {
-            qtd_cestas_ultimo_jogo = resposta[0].qtd_cestas
-            qtd_partidas_ultimo = resposta[0].qtd_partidas
+        console.log(resposta)
+
+        for (let i = 0; i < resposta.length; i++) {
+            var performance_dia = taxaPerformance(
+                resposta[i].qtd_cestas,
+                resposta[i].qtd_partidas
+            )
+
+            lista.push(performance_dia)
+
         }
 
-        if (resposta && resposta.length >= 2) {
-            qtd_cestas_peunultimo_jogo = resposta[1].qtd_cestas
-            qtd_partidas_penultimo = resposta[1].qtd_partidas
-        }
+        melhorJogo(lista)
+
+        console.log(lista)
+
+
+
+
+
+        // // Verifica se há dados disponíveis
+        // if (resposta && resposta.length >= 1) {
+        //     qtd_cestas_ultimo_jogo = resposta[0].qtd_cestas
+        //     qtd_partidas_ultimo = resposta[0].qtd_partidas
+        // }
+
+        // if (resposta && resposta.length >= 2) {
+        //     qtd_cestas_peunultimo_jogo = resposta[1].qtd_cestas
+        //     qtd_partidas_penultimo = resposta[1].qtd_partidas
+        // }
 
         const meu_grafico = document.getElementById('grafico_geral');
 
@@ -142,7 +182,7 @@
                 datasets: [
                     {
                         label: 'Performance',
-                        data: [primeiro_jogo, segundo_jogo, terceiro_jogo, quarto_jogo, quinto_jogo, sexto_jogo, setimo_jogo],
+                        data: lista,
                         borderWidth: 1,
                         backgroundColor: '#F39237'
                     }
