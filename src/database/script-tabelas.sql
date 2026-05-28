@@ -36,7 +36,8 @@ CREATE TABLE dados_usuario (
 	taxa_acerto DECIMAL(5,2),
 	qtd_partidas INT,
 	qtd_vitorias INT,
-	dt_jogo DATETIME DEFAULT NOW()
+	dt_jogo DATETIME DEFAULT NOW(),
+	CONSTRAINT fk_usuario_dados FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
 );
 
 -- CREATE TABLE aviso (
