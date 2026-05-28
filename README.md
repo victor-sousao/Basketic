@@ -1,15 +1,13 @@
 <img src="https://www.mackenzie.br/fileadmin/_processed_/6/1/csm_Basquete_o_esporte_importado_pelo_Mackenzie_2e81f9117b.jpg" width="1000px">
 
 # Basketic
+Basketic: Projeto dedicado a acompanhar a performance do jogador usuário 
 
-<hr>
 
 SPTech School 
 Ciência da Computação 
 
-
-Basketic: Projeto dedicado a acompanhar a performance do jogador usuário 
-
+<hr>
   
 
 # 1. Contexto: 
