@@ -10,21 +10,25 @@ Ciência da Computação
 <hr>
   
 
-# 1. Contexto: 
+<h2>
+1. Contexto:   
+</h2>
 
 Desde décadas o basquete é uns dos esportes mais amados pela sociedade brasileira. Cerca de 58 milhões de pessoas são fãs desse hobby/profissão. Nessa vastidão de apaixonados pelo baska eu também me encontro, desde minha primeira infância eu sempre tive interesse. Conforme fui crescendo e me apossando desse passatempo eu senti a necessidade de um painel onde eu pudesse acompanhar minhas vitórias. 
 
  
 
  
-
-# 1.2. Segmento:  
+<h2>
+1.2. Segmento:    
+</h2>
 
 Monitoramento da evolução pessoal no Basquetebol 
 
  
-
-# 1.3. Público-Alvo: 
+<h2>
+1.3. Público-Alvo: 
+</h2>
 
  Jogadores de basquete amadores. 
 
