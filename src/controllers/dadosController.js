@@ -7,8 +7,8 @@ function cadastrar(req, res) {
     var qtd_partidas = req.body.partidasServer
     var qtd_vitorias = req.body.vitoriasServer
 
-    if (horas_jogadas == undefined || fk_usuario == undefined || qtd_cestas == undefined || qtd_partidas == undefined || qtd_vitorias == undefined) {
-        res.status(400).send("Um ou mais campos estão undefined");
+    if (fk_usuario == undefined || qtd_cestas == undefined || qtd_partidas == undefined) {
+        res.status(400).send("Todos os campos são obrigatórios!");
         return;
     }
 
