@@ -54,19 +54,19 @@
             <div class="perguntas">
                 <div class="horas_jogadas">
                     <label>Quantas horas você jogou hoje?</label>
-                    <input type="text" id="ipt_horario_incio" placeholder="Ex: 10">
+                    <input type="number" id="ipt_horario_incio" placeholder="Ex: 10">
                 </div>
                 <div class="qtd_cestas">
                     <label>Quantas cestas você fez hoje?</label>
-                    <input type="text" id="ipt_qtd_cestas" placeholder="Ex: 27">
+                    <input type="number" id="ipt_qtd_cestas" placeholder="Ex: 27">
                 </div>
                 <div class="qtd_partidas">
                     <label>Quantas partidas você jogou hoje?</label>
-                    <input type="text" id="ipt_qtd_partidas" placeholder="Ex: 13">
+                    <input type="number" id="ipt_qtd_partidas" placeholder="Ex: 13">
                 </div>
                 <div class="qtd_vitorias">
                     <label>Quantas vitórias você conseguiu ter hoje? </label>
-                    <input type="text" id="ipt_qtd_vitorias" placeholder="Ex: 13">
+                    <input type="number" id="ipt_qtd_vitorias" placeholder="Ex: 13">
                     <button onclick="cadastrar(), window.location.reload()" class="btn-logout">Cadastrar</button>
                 </div>
             </div>
@@ -86,8 +86,7 @@
             </div>
             <div class="area-kpi">
                 <div class="kpi">
-                    <p>Sua performance de agora foi <span id="kpi_texto" style="color: rgb(255, 145, 0);"></span>, que o
-                        último jogo</p>
+                    <p id="kpi_texto">Sem dados suficientes</p>
                 </div>
             </div>
         </div>
@@ -103,17 +102,22 @@
 
 <script>
 
+
     function monitorarMelhoria(novo_jogo, antigo_jogo) {
+
         var evolucao = ((novo_jogo - antigo_jogo) / antigo_jogo) * 100
 
         if (evolucao.toFixed(2) == 0) {
-            kpi_texto.innerHTML = `<span style="color: rgb(255, 145, 0);">a mesma</span>`
+            kpi_texto.innerHTML = `<span style="color: rgb(255, 145, 0);">Sua performance se manteve a mesma</span>`
         }
         else if (evolucao > 0) {
-            kpi_texto.innerHTML = `<span style="color: rgb(0, 255, 0);">${Math.abs(evolucao).toFixed(2)}% melhor</span>`
+            kpi_texto.innerHTML = `<span style="color: rgb(4, 109, 4);">Sua performance melhorou em ${Math.abs(evolucao).toFixed(2)}%</span>`
+        }
+        else if (Number.isNaN(evolucao) === true) {
+            kpi_texto.innerHTML = `<span style="color: rgb(255, 0, 0);">Falta mais um registro</span>`
         }
         else {
-            kpi_texto.innerHTML = `<span style="color: rgb(255, 0, 0);">${Math.abs(evolucao).toFixed(2)}% pior</span>`
+            kpi_texto.innerHTML = `<span style="color: rgb(255, 0, 0);">Sua performance piorou em ${Math.abs(evolucao).toFixed(2)}%</span>`
         }
 
         return kpi_texto.innerHTML
@@ -243,11 +247,17 @@
         if (resposta && resposta.length >= 1) {
             qtd_cestas_ultimo_jogo = resposta[0].qtd_cestas
             qtd_partidas_ultimo = resposta[0].qtd_partidas
+        } else {
+            qtd_cestas_ultimo_jogo = 0
+            qtd_partidas_ultimo = 0
         }
 
         if (resposta && resposta.length >= 2) {
             qtd_cestas_peunultimo_jogo = resposta[1].qtd_cestas
             qtd_partidas_penultimo = resposta[1].qtd_partidas
+        } else {
+            qtd_cestas_peunultimo_jogo = 0
+            qtd_partidas_penultimo = 0
         }
 
 
