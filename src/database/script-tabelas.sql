@@ -15,7 +15,7 @@ USE basketic;
 -- CREATE TABLE empresa (
 -- 	id INT PRIMARY KEY AUTO_INCREMENT,
 -- 	razao_social VARCHAR(50),
--- 	cnpj CHAR(14),
+-- 	cnpj CHAR(14),c
 -- 	codigo_ativacao VARCHAR(50)
 -- );
 
@@ -78,10 +78,17 @@ CREATE TABLE dados_usuario (
 INSERT INTO usuario(nome, email, senha) VALUES 
 ('Victor', 'victor@gmail.com', 'qwerty123');
 
-DROP USER inseridor@localhost;
+-- DELETE FROM usuario WHERE id = 2;
+-- DELETE FROM dados_usuario WHERE fk_usuario = 1;
+-- DROP USER inseridor@localhost;
+
+
+SELECT * FROM dados_usuario;
+SELECT * FROM usuario;
 
 CREATE USER 'inseridor'@'localhost' identified by 'basketicVictor';
 GRANT INSERT ON basketic.* TO 'inseridor'@'localhost';
 
 GRANT SELECT on basketic.* TO 'inseridor'@'localhost';
 FLUSH PRIVILEGES;
+
